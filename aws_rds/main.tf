@@ -4,7 +4,7 @@ resource "aws_db_instance" "database" {
   skip_final_snapshot       = true
   allocated_storage         = "60"
   storage_type              = "gp2"
-  engine                    = "mysql"
+  engine                    = "postgres"
   instance_class            = "db.t2.medium"
   name                      = "${var.db_name}"
   username                  = "${var.db_username}"

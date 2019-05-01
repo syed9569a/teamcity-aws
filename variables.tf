@@ -31,7 +31,7 @@ variable "key_name" {
 }
 
 variable "debian_ami" {
-  default = "ami-05829248ffee66250"
+  default = "ami-0764a46039d5d5fa5"
 }
 
 variable "ssh_path" {

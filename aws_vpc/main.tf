@@ -8,43 +8,24 @@ resource "aws_vpc" "vpc" {
   }
 
 }
-#NAT_GW_EIP
-resource "aws_eip" "nat_gw_eip" {
 
+resource "aws_eip" "nat_gw_eip" {
   vpc = true
 
   tags {
-
-    Name = "Teamcity NAT"
-
+    Name = "TeamCity NAT"
   }
-
 }
-#NAT_GW
+
 resource "aws_nat_gateway" "gw" {
-
   allocation_id = "${aws_eip.nat_gw_eip.id}"
-  subnet_id = "${aws_subnet.private.id}"
+  subnet_id     = "${aws_subnet.public.id}"
 
   tags {
-
-    Name = "Teamcity NAT Gateway"
-
+    Name = "TeamCity NAT Gateway"
   }
-
-}
-#VPC_IGW
-resource "aws_internet_gateway" "vpc_igw" {
-
-  vpc_id = "${aws_vpc.vpc.id}"
-
-  tags {
-    Name = "Teamcity Gateway"
-  }
-
 }
 
-#VPC_Subnet_Public
 resource "aws_subnet" "public" {
   availability_zone = "${element(var.availability_zones, count.index)}"
   cidr_block        = "${var.public_cidr_block}"
@@ -53,6 +34,32 @@ resource "aws_subnet" "public" {
   tags {
     Name = "Public TeamCity Subnet"
   }
+}
+
+resource "aws_internet_gateway" "vpc_igw" {
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  tags {
+    Name = "TeamCity Gateway"
+  }
+}
+
+resource "aws_route_table" "vpc_public" {
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.vpc_igw.id}"
+  }
+
+  tags {
+    Name = "TeamCity Public Subnet Route Table"
+  }
+}
+
+resource "aws_route_table_association" "vpc_public" {
+  subnet_id      = "${aws_subnet.public.id}"
+  route_table_id = "${aws_route_table.vpc_public.id}"
 }
 
 resource "aws_subnet" "private" {
@@ -76,7 +83,6 @@ resource "aws_db_subnet_group" "rds" {
   }
 }
 
-#Route_Table
 resource "aws_route_table" "vpc_private" {
   vpc_id = "${aws_vpc.vpc.id}"
 
