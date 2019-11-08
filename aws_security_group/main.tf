@@ -51,7 +51,7 @@ resource "aws_security_group" "teamcity_web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags {
+  tags = {
     Name = "Teamcity Web Security Group"
   }
 
@@ -83,7 +83,7 @@ resource "aws_security_group" "rds_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  tags {
+  tags = {
     Name = "TeamCity RDS Security Group"
   }
 }

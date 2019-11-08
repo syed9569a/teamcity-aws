@@ -27,7 +27,7 @@ variable "unique_s3_name" {
 }
 
 variable "key_name" {
-  default = "aws_priv"
+  default = "sahmed-home"
 }
 
 variable "debian_ami" {

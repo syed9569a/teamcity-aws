@@ -7,7 +7,7 @@ provider "aws" {
 data "aws_availability_zones" "zones" {}
 
 module "aws_vpc" {
-    source = "aws_vpc"
+    source = "./aws_vpc"
     availability_zones = ["${data.aws_availability_zones.zones.names}"]
 }
 

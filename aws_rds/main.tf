@@ -18,7 +18,7 @@ resource "aws_db_instance" "database" {
   backup_window             = "08:17-08:47"
   maintenance_window        = "sat:09:30-sat:22:00"
 
-  tags {
+  tags = {
     Name = "TeamCity RDS"
   }
 }

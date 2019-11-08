@@ -19,7 +19,7 @@ resource "aws_instance" "teamcity" {
 data "template_file" "teamcity_userdata" {
   template = "${file("${path.module}/scripts/setup.sh")}"
 
-  vars {
+  vars = {
     db_url      = "${var.db_url}"
     db_port     = "${var.db_port}"
     db_name     = "${var.db_name}"
